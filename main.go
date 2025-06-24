@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
+	"github.com/goodben7/mon-api-gin.git/config"
 	"github.com/goodben7/mon-api-gin.git/middleware"
 	"github.com/goodben7/mon-api-gin.git/routes"
 )
@@ -13,6 +14,8 @@ func main() {
 	// gin.SetMode(gin.ReleaseMode)
 
 	r := gin.Default()
+
+	config.SetupValidator()
 
 	routes.SetupRoutes(r)
 
