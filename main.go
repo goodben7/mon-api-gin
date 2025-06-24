@@ -1,8 +1,10 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"log"
+
+	"github.com/gin-gonic/gin"
+	"github.com/goodben7/mon-api-gin.git/routes"
 )
 
 func main() {
@@ -10,6 +12,8 @@ func main() {
 	// gin.SetMode(gin.ReleaseMode)
 
 	r := gin.Default()
+
+	routes.SetupRoutes(r)
 
 	// Middleware global (ex: CORS)
 	r.Use(func(c *gin.Context) {
