@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
+	"github.com/goodben7/mon-api-gin.git/middleware"
 	"github.com/goodben7/mon-api-gin.git/routes"
 )
 
@@ -14,6 +15,8 @@ func main() {
 	r := gin.Default()
 
 	routes.SetupRoutes(r)
+
+	r.Use(middleware.Logger())
 
 	// Middleware global (ex: CORS)
 	r.Use(func(c *gin.Context) {

@@ -9,5 +9,6 @@ func SetupRoutes(r *gin.Engine) {
 	api := r.Group("/api")
 	{
 		api.GET("/user/:id", handlers.GetUserByID)
+		api.POST("/user", handlers.CreateUser)
 	}
 }
