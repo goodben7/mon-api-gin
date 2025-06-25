@@ -1,0 +1,142 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Documentation de l'API en développement",
+        "title": "Mon API Gin - DEV",
+        "contact": {},
+        "version": "1.0-dev"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/api/user": {
+            "get": {
+                "description": "Retourne un utilisateur exemple (pour tests)",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Récupère un utilisateur par défaut",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Crée un nouvel utilisateur avec validation des données",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Crée un utilisateur",
+                "parameters": [
+                    {
+                        "description": "Infos utilisateur",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/{id}": {
+            "get": {
+                "description": "Retourne les détails d'un utilisateur spécifique",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Récupère un utilisateur par son ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID de l'utilisateur",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "404": {
+                        "description": "Utilisateur non trouvé",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.User": {
+            "type": "object",
+            "required": [
+                "email",
+                "id",
+                "name"
+            ],
+            "properties": {
+                "age": {
+                    "type": "integer",
+                    "minimum": 18,
+                    "example": 25
+                },
+                "email": {
+                    "type": "string",
+                    "example": "jean.dupont@example.com"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 3,
+                    "example": "Jean Dupont"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,97 @@
+basePath: /
+definitions:
+  models.User:
+    properties:
+      age:
+        example: 25
+        minimum: 18
+        type: integer
+      email:
+        example: jean.dupont@example.com
+        type: string
+      id:
+        example: 6ba7b810-9dad-11d1-80b4-00c04fd430c8
+        type: string
+      name:
+        example: Jean Dupont
+        maxLength: 50
+        minLength: 3
+        type: string
+    required:
+    - email
+    - id
+    - name
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Documentation de l'API en développement
+  title: Mon API Gin - DEV
+  version: 1.0-dev
+paths:
+  /api/user:
+    get:
+      description: Retourne un utilisateur exemple (pour tests)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Récupère un utilisateur par défaut
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Crée un nouvel utilisateur avec validation des données
+      parameters:
+      - description: Infos utilisateur
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Crée un utilisateur
+      tags:
+      - users
+  /api/user/{id}:
+    get:
+      description: Retourne les détails d'un utilisateur spécifique
+      parameters:
+      - description: ID de l'utilisateur
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "404":
+          description: Utilisateur non trouvé
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Récupère un utilisateur par son ID
+      tags:
+      - users
+swagger: "2.0"

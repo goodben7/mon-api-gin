@@ -8,6 +8,12 @@ import (
 	"github.com/goodben7/mon-api-gin.git/models"
 )
 
+// @Summary Récupère un utilisateur par défaut
+// @Description Retourne un utilisateur exemple (pour tests)
+// @Tags users
+// @Produce json
+// @Success 200 {object} models.User
+// @Router /api/user [get]
 func GetUser(c *gin.Context) {
 	user := models.User{
 		ID:   "123",
@@ -16,6 +22,14 @@ func GetUser(c *gin.Context) {
 	c.JSON(200, user)
 }
 
+// @Summary Récupère un utilisateur par son ID
+// @Description Retourne les détails d'un utilisateur spécifique
+// @Tags users
+// @Produce json
+// @Param id path string true "ID de l'utilisateur"
+// @Success 200 {object} models.User
+// @Failure 404 {object} map[string]string "Utilisateur non trouvé"
+// @Router /api/user/{id} [get]
 func GetUserByID(c *gin.Context) {
 	id := c.Param("id")
 	// Simuler une DB
@@ -26,6 +40,15 @@ func GetUserByID(c *gin.Context) {
 	c.JSON(200, user)
 }
 
+// @Summary Crée un utilisateur
+// @Description Crée un nouvel utilisateur avec validation des données
+// @Tags users
+// @Accept  json
+// @Produce  json
+// @Param   user  body  models.User  true  "Infos utilisateur"
+// @Success 201 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Router /api/user [post]
 func CreateUser(c *gin.Context) {
 	var user models.User
 
@@ -35,16 +58,11 @@ func CreateUser(c *gin.Context) {
 		if validationErrors, ok := err.(validator.ValidationErrors); ok {
 			var errorMessages []string
 			for _, fieldError := range validationErrors {
-				// Message d'erreur personnalisé pour le tag "not_admin"
-				if fieldError.Tag() == "not_admin" {
-					errorMessages = append(errorMessages, "Le nom 'admin' est interdit")
-				} else {
-					// Message d'erreur par défaut pour les autres tags
-					errorMessages = append(errorMessages,
-						fmt.Sprintf("Erreur sur le champ '%s': %s",
-							fieldError.Field(),
-							fieldError.Tag()))
-				}
+				// Messages d'erreur standards
+				errorMessages = append(errorMessages,
+					fmt.Sprintf("Erreur sur le champ '%s': %s",
+						fieldError.Field(),
+						fieldError.Tag()))
 			}
 			c.JSON(400, gin.H{"errors": errorMessages})
 			return
